@@ -1,0 +1,241 @@
+Race,TeamName,Points,Placement
+1,Red Bull Racing,44.0,1
+1,Ferrari,27.0,2
+1,Mercedes,16.0,3
+1,McLaren,12.0,4
+1,Aston Martin,3.0,5
+1,Kick Sauber,0.0,6
+1,Haas F1 Team,0.0,7
+1,RB,0.0,8
+1,Williams,0.0,9
+1,Alpine,0.0,10
+2,Red Bull Racing,87.0,1
+2,Ferrari,49.0,2
+2,McLaren,28.0,3
+2,Mercedes,26.0,4
+2,Aston Martin,13.0,5
+2,Haas F1 Team,1.0,6
+2,Kick Sauber,0.0,7
+2,RB,0.0,8
+2,Williams,0.0,9
+2,Alpine,0.0,10
+3,Red Bull Racing,97.0,1
+3,Ferrari,93.0,2
+3,McLaren,55.0,3
+3,Mercedes,26.0,4
+3,Aston Martin,25.0,5
+3,RB,6.0,6
+3,Haas F1 Team,4.0,7
+3,Kick Sauber,0.0,8
+3,Williams,0.0,9
+3,Alpine,0.0,10
+4,Red Bull Racing,141.0,1
+4,Ferrari,120.0,2
+4,McLaren,69.0,3
+4,Mercedes,34.0,4
+4,Aston Martin,33.0,5
+4,RB,7.0,6
+4,Haas F1 Team,4.0,7
+4,Kick Sauber,0.0,8
+4,Williams,0.0,9
+4,Alpine,0.0,10
+5,Red Bull Racing,181.0,1
+5,Ferrari,142.0,2
+5,McLaren,91.0,3
+5,Mercedes,44.0,4
+5,Aston Martin,40.0,5
+5,RB,7.0,6
+5,Haas F1 Team,5.0,7
+5,Kick Sauber,0.0,8
+5,Williams,0.0,9
+5,Alpine,0.0,10
+6,Red Bull Racing,211.0,1
+6,Ferrari,167.0,2
+6,McLaren,116.0,3
+6,Mercedes,56.0,4
+6,Aston Martin,42.0,5
+6,RB,13.0,6
+6,Haas F1 Team,5.0,7
+6,Alpine,1.0,8
+6,Kick Sauber,0.0,9
+6,Williams,0.0,10
+7,Red Bull Racing,240.0,1
+7,Ferrari,192.0,2
+7,McLaren,146.0,3
+7,Mercedes,71.0,4
+7,Aston Martin,44.0,5
+7,RB,14.0,6
+7,Haas F1 Team,5.0,7
+7,Alpine,1.0,8
+7,Kick Sauber,0.0,9
+7,Williams,0.0,10
+8,Red Bull Racing,248.0,1
+8,Ferrari,232.0,2
+8,McLaren,176.0,3
+8,Mercedes,88.0,4
+8,Aston Martin,44.0,5
+8,RB,18.0,6
+8,Haas F1 Team,5.0,7
+8,Williams,2.0,8
+8,Alpine,2.0,9
+8,Kick Sauber,0.0,10
+9,Red Bull Racing,273.0,1
+9,Ferrari,232.0,2
+9,McLaren,204.0,3
+9,Mercedes,116.0,4
+9,Aston Martin,58.0,5
+9,RB,22.0,6
+9,Haas F1 Team,5.0,7
+9,Alpine,5.0,8
+9,Williams,2.0,9
+9,Kick Sauber,0.0,10
+10,Red Bull Racing,302.0,1
+10,Ferrari,250.0,2
+10,McLaren,229.0,3
+10,Mercedes,143.0,4
+10,Aston Martin,58.0,5
+10,RB,22.0,6
+10,Alpine,8.0,7
+10,Haas F1 Team,5.0,8
+10,Williams,2.0,9
+10,Kick Sauber,0.0,10
+11,Red Bull Racing,318.0,1
+11,Ferrari,265.0,2
+11,McLaren,247.0,3
+11,Mercedes,180.0,4
+11,Aston Martin,58.0,5
+11,RB,24.0,6
+11,Haas F1 Team,17.0,7
+11,Alpine,9.0,8
+11,Williams,2.0,9
+11,Kick Sauber,0.0,10
+12,Red Bull Racing,336.0,1
+12,Ferrari,276.0,2
+12,McLaren,274.0,3
+12,Mercedes,205.0,4
+12,Aston Martin,68.0,5
+12,Haas F1 Team,25.0,6
+12,RB,25.0,7
+12,Alpine,9.0,8
+12,Williams,4.0,9
+12,Kick Sauber,0.0,10
+13,Red Bull Racing,352.0,1
+13,McLaren,317.0,2
+13,Ferrari,296.0,3
+13,Mercedes,225.0,4
+13,Aston Martin,69.0,5
+13,RB,27.0,6
+13,Haas F1 Team,25.0,7
+13,Alpine,9.0,8
+13,Williams,4.0,9
+13,Kick Sauber,0.0,10
+14,Red Bull Racing,371.0,1
+14,McLaren,345.0,2
+14,Ferrari,319.0,3
+14,Mercedes,250.0,4
+14,Aston Martin,73.0,5
+14,RB,28.0,6
+14,Haas F1 Team,25.0,7
+14,Alpine,11.0,8
+14,Williams,4.0,9
+14,Kick Sauber,0.0,10
+15,Red Bull Racing,397.0,1
+15,McLaren,383.0,2
+15,Ferrari,344.0,3
+15,Mercedes,260.0,4
+15,Aston Martin,74.0,5
+15,RB,28.0,6
+15,Haas F1 Team,25.0,7
+15,Alpine,13.0,8
+15,Williams,4.0,9
+15,Kick Sauber,0.0,10
+16,McLaren,417.0,1
+16,Red Bull Racing,409.0,2
+16,Ferrari,381.0,3
+16,Mercedes,276.0,4
+16,Aston Martin,74.0,5
+16,RB,28.0,6
+16,Haas F1 Team,26.0,7
+16,Alpine,13.0,8
+16,Williams,6.0,9
+16,Kick Sauber,0.0,10
+17,McLaren,455.0,1
+17,Red Bull Racing,419.0,2
+17,Ferrari,399.0,3
+17,Mercedes,293.0,4
+17,Aston Martin,82.0,5
+17,RB,28.0,6
+17,Haas F1 Team,27.0,7
+17,Williams,16.0,8
+17,Alpine,13.0,9
+17,Kick Sauber,0.0,10
+18,McLaren,495.0,1
+18,Red Bull Racing,438.0,2
+18,Ferrari,415.0,3
+18,Mercedes,313.0,4
+18,Aston Martin,86.0,5
+18,Haas F1 Team,29.0,6
+18,RB,28.0,7
+18,Williams,16.0,8
+18,Alpine,13.0,9
+18,Kick Sauber,0.0,10
+19,McLaren,517.0,1
+19,Red Bull Racing,459.0,2
+19,Ferrari,458.0,3
+19,Mercedes,321.0,4
+19,Aston Martin,86.0,5
+19,Haas F1 Team,33.0,6
+19,RB,30.0,7
+19,Williams,17.0,8
+19,Alpine,13.0,9
+19,Kick Sauber,0.0,10
+20,McLaren,539.0,1
+20,Ferrari,499.0,2
+20,Red Bull Racing,467.0,3
+20,Mercedes,343.0,4
+20,Aston Martin,86.0,5
+20,Haas F1 Team,41.0,6
+20,RB,30.0,7
+20,Williams,17.0,8
+20,Alpine,14.0,9
+20,Kick Sauber,0.0,10
+21,McLaren,551.0,1
+21,Ferrari,509.0,2
+21,Red Bull Racing,493.0,3
+21,Mercedes,356.0,4
+21,Aston Martin,86.0,5
+21,Alpine,47.0,6
+21,Haas F1 Team,41.0,7
+21,RB,38.0,8
+21,Williams,17.0,9
+21,Kick Sauber,0.0,10
+22,McLaren,566.0,1
+22,Ferrari,536.0,2
+22,Red Bull Racing,504.0,3
+22,Mercedes,399.0,4
+22,Aston Martin,86.0,5
+22,Alpine,47.0,6
+22,Haas F1 Team,45.0,7
+22,RB,40.0,8
+22,Williams,17.0,9
+22,Kick Sauber,0.0,10
+23,McLaren,583.0,1
+23,Ferrari,562.0,2
+23,Red Bull Racing,529.0,3
+23,Mercedes,411.0,4
+23,Aston Martin,92.0,5
+23,Alpine,57.0,6
+23,Haas F1 Team,47.0,7
+23,RB,40.0,8
+23,Williams,17.0,9
+23,Kick Sauber,4.0,10
+24,McLaren,609.0,1
+24,Ferrari,595.0,2
+24,Red Bull Racing,537.0,3
+24,Mercedes,433.0,4
+24,Aston Martin,94.0,5
+24,Alpine,63.0,6
+24,Haas F1 Team,51.0,7
+24,RB,40.0,8
+24,Williams,17.0,9
+24,Kick Sauber,4.0,10

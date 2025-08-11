@@ -1,0 +1,171 @@
+Round,Team,AveragePitStop
+1,Mercedes,1.9140000000000001
+1,Racing Point,1.9460000000000002
+1,Red Bull Racing,2.005
+1,Renault,2.168
+1,Williams,2.18
+1,McLaren,2.1870000000000003
+1,AlphaTauri,2.229
+1,Ferrari,2.242
+1,Alfa Romeo,2.2809999999999997
+1,Haas F1 Team,2.3280000000000003
+2,Red Bull Racing,2.118
+2,Mercedes,2.1550000000000002
+2,Alfa Romeo,2.1559999999999997
+2,Renault,2.16
+2,AlphaTauri,2.214
+2,Haas F1 Team,2.221
+2,Williams,2.222
+2,Racing Point,2.244
+2,McLaren,2.342
+2,Ferrari,3.972
+3,Mercedes,2.196
+3,Red Bull Racing,2.225
+3,Haas F1 Team,2.259
+3,Renault,2.269
+3,AlphaTauri,2.3
+3,Racing Point,2.317
+3,Alfa Romeo,2.37
+3,Ferrari,2.375
+3,McLaren,2.507
+3,Williams,2.577
+4,Racing Point,2.872
+4,AlphaTauri,2.941
+4,Ferrari,2.948
+4,Red Bull Racing,2.966
+4,Renault,3.016
+4,Williams,3.034
+4,Mercedes,3.0989999999999998
+4,McLaren,3.168
+4,Haas F1 Team,3.382
+4,Alfa Romeo,3.6340000000000003
+5,AlphaTauri,2.823
+5,Renault,2.8280000000000003
+5,Williams,2.838
+5,Racing Point,2.839
+5,Mercedes,2.841
+5,Alfa Romeo,2.859
+5,Red Bull Racing,2.859
+5,Ferrari,2.879
+5,Haas F1 Team,2.923
+5,McLaren,3.09
+6,Red Bull Racing,2.165
+6,McLaren,2.2030000000000003
+6,Ferrari,2.205
+6,Renault,2.21
+6,Alfa Romeo,2.214
+6,Williams,2.231
+6,AlphaTauri,2.244
+6,Racing Point,2.246
+6,Mercedes,2.284
+6,Haas F1 Team,2.368
+7,Alfa Romeo,2.2960000000000003
+7,Red Bull Racing,2.303
+7,McLaren,2.305
+7,AlphaTauri,2.322
+7,Racing Point,2.343
+7,Williams,2.35
+7,Renault,2.395
+7,Mercedes,2.442
+7,Haas F1 Team,2.471
+7,Ferrari,2.625
+8,Ferrari,2.434
+8,Haas F1 Team,3.3009999999999997
+8,AlphaTauri,52.33
+8,Williams,52.489999999999995
+8,Red Bull Racing,52.620000000000005
+8,Racing Point,77.2
+8,Mercedes,77.205
+8,Alfa Romeo,77.28200000000001
+8,McLaren,77.33500000000001
+8,Renault,77.441
+9,Renault,1.964
+9,Ferrari,49.641000000000005
+9,Alfa Romeo,49.947
+9,Mercedes,72.705
+9,Red Bull Racing,72.816
+9,Racing Point,72.90700000000001
+9,McLaren,73.173
+9,AlphaTauri,73.174
+9,Williams,73.279
+9,Haas F1 Team,73.772
+10,Racing Point,2.96
+10,AlphaTauri,2.961
+10,Red Bull Racing,2.9690000000000003
+10,Williams,2.978
+10,Ferrari,2.9829999999999997
+10,Haas F1 Team,3.008
+10,Renault,3.009
+10,Alfa Romeo,3.154
+10,McLaren,3.4240000000000004
+10,Mercedes,3.5549999999999997
+11,Renault,2.234
+11,McLaren,2.238
+11,Alfa Romeo,2.271
+11,Red Bull Racing,2.275
+11,Racing Point,2.2760000000000002
+11,Ferrari,2.316
+11,Haas F1 Team,2.326
+11,Mercedes,2.326
+11,Williams,2.377
+11,AlphaTauri,2.5460000000000003
+12,Red Bull Racing,2.619
+12,Ferrari,2.68
+12,Mercedes,2.684
+12,Haas F1 Team,2.714
+12,Alfa Romeo,2.777
+12,Renault,2.777
+12,AlphaTauri,2.912
+12,Williams,2.9859999999999998
+12,McLaren,2.995
+12,Racing Point,3.165
+13,Red Bull Racing,2.9579999999999997
+13,Alfa Romeo,2.98
+13,Williams,2.98
+13,AlphaTauri,3.004
+13,McLaren,3.011
+13,Mercedes,3.0260000000000002
+13,Renault,3.038
+13,Haas F1 Team,3.0780000000000003
+13,Racing Point,3.279
+13,Ferrari,3.3560000000000003
+14,Red Bull Racing,2.2969999999999997
+14,McLaren,2.338
+14,AlphaTauri,2.346
+14,Mercedes,2.363
+14,Williams,2.372
+14,Renault,2.397
+14,Ferrari,2.435
+14,Racing Point,2.445
+14,Alfa Romeo,2.918
+14,Haas F1 Team,6.840000000000001
+15,Renault,59.234
+15,Mercedes,59.30499999999999
+15,Red Bull Racing,59.373000000000005
+15,Haas F1 Team,59.763999999999996
+15,McLaren,77.862
+15,Racing Point,78.063
+15,Alfa Romeo,78.291
+15,AlphaTauri,78.693
+15,Ferrari,115.56500000000001
+15,Williams,116.06500000000001
+16,Red Bull Racing,2.387
+16,Racing Point,2.447
+16,AlphaTauri,2.45
+16,Renault,2.4530000000000003
+16,McLaren,2.4539999999999997
+16,Mercedes,2.463
+16,Williams,2.495
+16,Alfa Romeo,2.557
+16,Haas F1 Team,2.625
+16,Ferrari,2.715
+17,AlphaTauri,-461168600.557
+17,Red Bull Racing,2.1399999999999997
+17,Alfa Romeo,2.175
+17,Renault,2.1870000000000003
+17,Williams,2.194
+17,McLaren,2.199
+17,Mercedes,2.2
+17,Racing Point,2.2039999999999997
+17,Ferrari,2.211
+17,Haas F1 Team,2.477

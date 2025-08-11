@@ -1,0 +1,10 @@
+numpy
+pandas
+sklearn
+glob
+joblib
+fastf1
+shap
+fastapi
+pydantic
+univorn

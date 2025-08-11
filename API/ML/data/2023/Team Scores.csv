@@ -1,0 +1,221 @@
+Race,TeamName,Points,Placement
+1,Red Bull Racing,43.0,1
+1,Aston Martin,23.0,2
+1,Mercedes,16.0,3
+1,Ferrari,12.0,4
+1,Alfa Romeo,4.0,5
+1,Alpine,2.0,6
+1,Williams,1.0,7
+1,AlphaTauri,0.0,8
+1,Haas F1 Team,0.0,9
+1,McLaren,0.0,10
+2,Red Bull Racing,87.0,1
+2,Aston Martin,38.0,2
+2,Mercedes,38.0,3
+2,Ferrari,26.0,4
+2,Alpine,8.0,5
+2,Alfa Romeo,4.0,6
+2,Williams,1.0,7
+2,Haas F1 Team,1.0,8
+2,AlphaTauri,0.0,9
+2,McLaren,0.0,10
+3,Red Bull Racing,123.0,1
+3,Aston Martin,65.0,2
+3,Mercedes,56.0,3
+3,Ferrari,26.0,4
+3,McLaren,12.0,5
+3,Alpine,8.0,6
+3,Haas F1 Team,7.0,7
+3,Alfa Romeo,6.0,8
+3,Williams,1.0,9
+3,AlphaTauri,1.0,10
+4,Red Bull Racing,166.0,1
+4,Aston Martin,83.0,2
+4,Mercedes,69.0,3
+4,Ferrari,51.0,4
+4,McLaren,14.0,5
+4,Alpine,8.0,6
+4,Haas F1 Team,7.0,7
+4,Alfa Romeo,6.0,8
+4,AlphaTauri,2.0,9
+4,Williams,1.0,10
+5,Red Bull Racing,210.0,1
+5,Aston Martin,98.0,2
+5,Mercedes,89.0,3
+5,Ferrari,67.0,4
+5,Alpine,14.0,5
+5,McLaren,14.0,6
+5,Haas F1 Team,8.0,7
+5,Alfa Romeo,6.0,8
+5,AlphaTauri,2.0,9
+5,Williams,1.0,10
+6,Red Bull Racing,235.0,1
+6,Aston Martin,116.0,2
+6,Mercedes,112.0,3
+6,Ferrari,79.0,4
+6,Alpine,35.0,5
+6,McLaren,17.0,6
+6,Haas F1 Team,8.0,7
+6,Alfa Romeo,6.0,8
+6,AlphaTauri,2.0,9
+6,Williams,1.0,10
+7,Red Bull Racing,273.0,1
+7,Mercedes,145.0,2
+7,Aston Martin,130.0,3
+7,Ferrari,89.0,4
+7,Alpine,40.0,5
+7,McLaren,17.0,6
+7,Alfa Romeo,8.0,7
+7,Haas F1 Team,8.0,8
+7,AlphaTauri,2.0,9
+7,Williams,1.0,10
+8,Red Bull Racing,307.0,1
+8,Mercedes,160.0,2
+8,Aston Martin,150.0,3
+8,Ferrari,111.0,4
+8,Alpine,44.0,5
+8,McLaren,17.0,6
+8,Alfa Romeo,9.0,7
+8,Haas F1 Team,8.0,8
+8,Williams,7.0,9
+8,AlphaTauri,2.0,10
+9,Red Bull Racing,348.0,1
+9,Mercedes,170.0,2
+9,Aston Martin,162.0,3
+9,Ferrari,137.0,4
+9,Alpine,45.0,5
+9,McLaren,29.0,6
+9,Alfa Romeo,9.0,7
+9,Haas F1 Team,8.0,8
+9,Williams,7.0,9
+9,AlphaTauri,2.0,10
+10,Red Bull Racing,382.0,1
+10,Mercedes,195.0,2
+10,Aston Martin,168.0,3
+10,Ferrari,140.0,4
+10,McLaren,59.0,5
+10,Alpine,45.0,6
+10,Williams,11.0,7
+10,Alfa Romeo,9.0,8
+10,Haas F1 Team,8.0,9
+10,AlphaTauri,2.0,10
+11,Red Bull Racing,423.0,1
+11,Mercedes,215.0,2
+11,Aston Martin,171.0,3
+11,Ferrari,150.0,4
+11,McLaren,87.0,5
+11,Alpine,45.0,6
+11,Williams,11.0,7
+11,Alfa Romeo,9.0,8
+11,Haas F1 Team,8.0,9
+11,AlphaTauri,2.0,10
+12,Red Bull Racing,466.0,1
+12,Mercedes,236.0,2
+12,Aston Martin,183.0,3
+12,Ferrari,165.0,4
+12,McLaren,93.0,5
+12,Alpine,49.0,6
+12,Williams,11.0,7
+12,Alfa Romeo,9.0,8
+12,Haas F1 Team,8.0,9
+12,AlphaTauri,3.0,10
+13,Red Bull Racing,503.0,1
+13,Mercedes,244.0,2
+13,Aston Martin,202.0,3
+13,Ferrari,175.0,4
+13,McLaren,101.0,5
+13,Alpine,65.0,6
+13,Williams,15.0,7
+13,Alfa Romeo,9.0,8
+13,Haas F1 Team,8.0,9
+13,AlphaTauri,3.0,10
+14,Red Bull Racing,546.0,1
+14,Mercedes,262.0,2
+14,Aston Martin,204.0,3
+14,Ferrari,202.0,4
+14,McLaren,105.0,5
+14,Alpine,65.0,6
+14,Williams,21.0,7
+14,Alfa Romeo,10.0,8
+14,Haas F1 Team,8.0,9
+14,AlphaTauri,3.0,10
+15,Red Bull Racing,560.0,1
+15,Mercedes,278.0,2
+15,Ferrari,239.0,3
+15,Aston Martin,204.0,4
+15,McLaren,129.0,5
+15,Alpine,73.0,6
+15,Williams,21.0,7
+15,Alfa Romeo,10.0,8
+15,Haas F1 Team,9.0,9
+15,AlphaTauri,5.0,10
+16,Red Bull Racing,586.0,1
+16,Mercedes,294.0,2
+16,Ferrari,259.0,3
+16,Aston Martin,208.0,4
+16,McLaren,162.0,5
+16,Alpine,76.0,6
+16,Williams,21.0,7
+16,Alfa Romeo,10.0,8
+16,Haas F1 Team,9.0,9
+16,AlphaTauri,5.0,10
+17,Red Bull Racing,613.0,1
+17,Mercedes,306.0,2
+17,Ferrari,269.0,3
+17,Aston Martin,216.0,4
+17,McLaren,195.0,5
+17,Alpine,82.0,6
+17,Williams,21.0,7
+17,Alfa Romeo,16.0,8
+17,Haas F1 Team,9.0,9
+17,AlphaTauri,5.0,10
+18,Red Bull Racing,650.0,1
+18,Mercedes,316.0,2
+18,Ferrari,284.0,3
+18,Aston Martin,222.0,4
+18,McLaren,213.0,5
+18,Alpine,90.0,6
+18,Williams,24.0,7
+18,Alfa Romeo,16.0,8
+18,AlphaTauri,10.0,9
+18,Haas F1 Team,9.0,10
+19,Red Bull Racing,675.0,1
+19,Mercedes,343.0,2
+19,Ferrari,311.0,3
+19,McLaren,227.0,4
+19,Aston Martin,222.0,5
+19,Alpine,91.0,6
+19,Williams,26.0,7
+19,Alfa Romeo,16.0,8
+19,AlphaTauri,16.0,9
+19,Haas F1 Team,9.0,10
+20,Red Bull Racing,712.0,1
+20,Mercedes,347.0,2
+20,Ferrari,319.0,3
+20,Aston Martin,247.0,4
+20,McLaren,246.0,5
+20,Alpine,98.0,6
+20,Williams,26.0,7
+20,AlphaTauri,18.0,8
+20,Alfa Romeo,16.0,9
+20,Haas F1 Team,9.0,10
+21,Red Bull Racing,752.0,1
+21,Mercedes,357.0,2
+21,Ferrari,345.0,3
+21,Aston Martin,259.0,4
+21,McLaren,248.0,5
+21,Alpine,110.0,6
+21,Williams,26.0,7
+21,AlphaTauri,18.0,8
+21,Alfa Romeo,16.0,9
+21,Haas F1 Team,9.0,10
+22,Red Bull Racing,790.0,1
+22,Mercedes,374.0,2
+22,Ferrari,363.0,3
+22,Aston Martin,266.0,4
+22,McLaren,266.0,5
+22,Alpine,110.0,6
+22,Williams,26.0,7
+22,AlphaTauri,22.0,8
+22,Alfa Romeo,16.0,9
+22,Haas F1 Team,9.0,10
