@@ -213,8 +213,8 @@ export default function App() {
       flexDirection: "column",
       color: "#fff",
       position: "relative",
-      width: "100%",
-      maxWidth: "100vw",
+      width: "100vw",
+      margin: 0,
       overflowX: "hidden" // prevents horizontal scrollbars
     }}
   >
