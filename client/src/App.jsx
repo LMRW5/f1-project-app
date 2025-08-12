@@ -20,12 +20,12 @@ export default function App() {
   const [driverPhotos, setDriverPhotos] = useState([]);
 
   useEffect(() => {
-  if (currRace) {
-    document.title = `F1 Predictions - ${currRace}`;
-  } else {
-    document.title = "F1 Prediction App";
-  }
-}, [currRace]);
+    if (currRace) {
+      document.title = `F1 Predictions - ${currRace}`;
+    } else {
+      document.title = "F1 Prediction App";
+    }
+  }, [currRace]);
 
   const getRowStyle = (pos) => {
     switch (pos) {
@@ -108,52 +108,67 @@ export default function App() {
       else setError(raceData.message || "Error fetching race predictions");
 
       // Fetch driver images
-    const imgRes = await fetch(`http://localhost:8000/Driver-Photos/`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-    const imgData = await imgRes.json();
+      const imgRes = await fetch(`http://localhost:8000/Driver-Photos/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const imgData = await imgRes.json();
+      console.log(imgData)
 
-    // Store the full array so hover can use Color, etc.
-    setDriverPhotos(imgData);
+      // Store the full array so hover can use Color, etc.
+      setDriverPhotos(imgData);
 
-    const imgMap = {};
-    imgData.forEach((d) => {
-      imgMap[d.Driver] = d.Image !== "None" ? d.Image : null;
-    });
-    setDriverImages(imgMap);
-  }catch(err){
-    setError(err.message)
-  } finally {
-    setLoading(false)
-  }};
 
+      const imgMap = {};
+      imgData.forEach((d) => {
+        imgMap[d.Driver] = d.Image !== "None" ? d.Image : null;
+      });
+      setDriverImages(imgMap);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const tableStyle = {
-    width: "100%",
+    width: "100%",       // take all available space in flex item
     borderCollapse: "collapse",
-    backgroundColor: "#1c1c1c",
+    backgroundColor: "#2c2c2c",
     color: "#fff",
     borderRadius: "8px",
     overflow: "hidden",
+    boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
   };
 
+
   const thStyle = {
-    padding: "10px",
+    padding: "12px",
     backgroundColor: "#e10600",
     color: "#fff",
     fontWeight: "bold",
     textAlign: "left",
+    borderBottom: "2px solid #fff",
   };
 
   const tdStyle = {
-    padding: "8px",
+    padding: "12px",
     borderBottom: "1px solid #333",
+    textAlign: "center",
   };
-
-    const renderTable = (title, predictions, section) => (
-    <div style={{ flex: 1, margin: isMobile ? "10px 0" : "0 10px", minWidth: 0 }}>
+  
+  const renderTable = (title, predictions, section) => (
+    <div 
+      style={{ 
+        flex: 1, 
+        margin: isMobile ? "10px 0" : "0 10px", 
+        minWidth: 0,
+        display: "flex",           // New
+        flexDirection: "column",   // New
+        alignItems: "center"       // New
+      }}
+    >
       <h2 style={{ color: "#e10600", textAlign: "center" }}>{title}</h2>
       <table style={tableStyle}>
         <thead>
@@ -175,7 +190,7 @@ export default function App() {
                 cursor: "pointer",
                 backgroundColor:
                   hoveredDriver === Driver && hoveredSection === section
-                    ? "rgba(255, 255, 255, 0.15)" // light highlight on hover
+                    ? "rgba(255, 255, 255, 0.1)"
                     : getRowStyle(Values["Pos"]).backgroundColor || "transparent",
               }}
               onMouseMove={(e) => {
@@ -201,171 +216,217 @@ export default function App() {
       </table>
     </div>
   );
+    // Estimate popup dimensions
+  const popupWidth = 160;
+  const popupHeight = 220; // approximate, adjust if needed
 
+  // Get viewport size
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
 
-  return (
-  <div
-    style={{
-      minHeight: "100vh",
-      backgroundColor: "#121212",
-      fontFamily: "'Orbitron', sans-serif",
-      display: "flex",
-      flexDirection: "column",
-      color: "#fff",
-      position: "relative",
-      width: "100%",
-      maxWidth: "100vw",
-      overflowX: "hidden" // prevents horizontal scrollbars
-    }}
-  >
-{/* HEADER */}
-<div
-  style={{
-    width: "100%",
-    boxSizing: "border-box", // include padding in total width
-    background: "linear-gradient(90deg, #1c1c1c, #2b2b2b)",
-    borderBottom: "2px solid #e10600",
-    padding: "20px",
-    textAlign: "center",
-    boxShadow: "0 4px 10px rgba(0,0,0,0.5)",
-    overflowX: "hidden", // prevent accidental horizontal scroll from header
-  }}
->
-  <h1
-    style={{
-      color: "#e10600",
-      fontSize: "3rem",
-      margin: "0 0 15px 0",
-      textShadow: "0px 0px 10px rgba(225,6,0,0.7)",
-      overflowWrap: "break-word", // break long titles if needed
-    }}
-  >
-    F1 Prediction App
-  </h1>
+  // Default popup position (near mouse)
+  let popupTop = mousePos.y + 15;
+  let popupLeft = mousePos.x + 15;
 
-  {/* Controls Row */}
-  <div
-    style={{
-      display: "flex",
-      flexWrap: "wrap", // wrap to next line on small screens
-      justifyContent: "center",
-      alignItems: "center",
-      gap: "15px",
-      marginBottom: "10px",
-      maxWidth: "100%", // never exceed header width
-      boxSizing: "border-box",
-    }}
-  >
-    <label style={{ fontSize: "1.1rem", whiteSpace: "nowrap" }}>
-      Select Race:
-      <select
-        value={selectedRace}
-        onChange={(e) => setSelectedRace(e.target.value)}
+  // Adjust vertical position if popup goes below viewport
+  if (popupTop + popupHeight > viewportHeight) {
+    popupTop = mousePos.y - popupHeight - 15;
+    if (popupTop < 0) popupTop = 0;
+  }
+
+  // Adjust horizontal position if popup goes beyond right edge
+  if (popupLeft + popupWidth > viewportWidth) {
+    popupLeft = mousePos.x - popupWidth - 15;
+    if (popupLeft < 0) popupLeft = 0;
+  }
+  // Find the index of the selected race in upcomingRaces
+  const selectedRaceIndex = upcomingRaces.indexOf(selectedRace);
+
+  // Get driver color once here too
+  const driverInfo = hoveredDriver ? driverPhotos?.find(d => d.Driver === hoveredDriver) : null;
+  const driverColor = driverInfo ? `#${driverInfo.Color}` : "#e10600";
+
+    return (
+    <div
+      style={{
+        minHeight: "100vh",
+        backgroundColor: "#121212",
+        fontFamily: "'Roboto', sans-serif",
+        display: "flex",
+        flexDirection: "column",
+        color: "#fff",
+        position: "relative",
+        width: "100%",
+        margin: 0,
+        overflowX: "hidden",
+      }}
+    >
+      {/* HEADER */}
+      <div
         style={{
-          marginLeft: 10,
-          padding: "8px",
-          backgroundColor: "#1c1c1c",
-          color: "#fff",
-          border: "1px solid #e10600",
-          borderRadius: "4px",
-          fontSize: "1rem",
-          maxWidth: "200px", // prevent it from stretching too far
-          overflow: "hidden",
-          textOverflow: "ellipsis",
+          width: "100%",
+          boxSizing: "border-box",
+          background: "linear-gradient(90deg, #1c1c1c, #2b2b2b)",
+          borderBottom: "2px solid #e10600",
+          padding: "20px",
+          textAlign: "center",
+          boxShadow: "0 4px 10px rgba(0,0,0,0.5)",
+          overflowX: "hidden",
         }}
       >
-        {upcomingRaces.map((race) => (
-          <option key={race} value={race}>
-            {race}
-          </option>
-        ))}
-      </select>
-    </label>
+        <h1
+          style={{
+            color: "#e10600",
+            fontSize: "3rem",
+            margin: "0 0 15px 0",
+            textShadow: "0px 0px 10px rgba(225,6,0,0.7)",
+            overflowWrap: "break-word",
+          }}
+        >
+          F1 Prediction App
+        </h1>
 
-    <button
-      onClick={handleFetchPredictions}
-      disabled={loading}
-      style={{
-        padding: "10px 20px",
-        backgroundColor: "#e10600",
-        color: "#fff",
-        border: "none",
-        borderRadius: "4px",
-        cursor: "pointer",
-        fontWeight: "bold",
-        fontSize: "1rem",
-        transition: "transform 0.15s ease, background-color 0.2s ease",
-        whiteSpace: "nowrap", // keep button text in one line
-      }}
-      onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
-      onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
-    >
-      {loading ? "Loading..." : "Get Predictions"}
-    </button>
-  </div>
-
-  {/* Error Message */}
-  {error && (
-    <div style={{ marginTop: 10, color: "#ff4d4d", fontWeight: "bold" }}>
-      Error: {error}
-    </div>
-  )}
-
-  {/* Subheader */}
-  <div
-    style={{
-      marginTop: "8px",
-      fontSize: "0.95rem",
-      color: "#ccc",
-      fontStyle: "italic",
-      textAlign: "center",
-      lineHeight: "1.4",
-    }}
-  >
-    <div>
-      Predicting results for{" "}
-      <span style={{ color: "#fff" }}>
-        <b>{currRace}</b>
-      </span>
-    </div>
-    <div style={{ marginTop: "4px" }}>
-      Using data from{" "}
-      <span style={{ color: "#fff" }}>
-        R{LATEST_ROUND} {CURR_SEASON}
-      </span>
-    </div>
-  </div>
-</div>
-
-      {qualiPredictions && racePredictions && (
+        {/* Controls Row */}
         <div
           style={{
             display: "flex",
-            flexDirection: isMobile ? "column" : "row",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            marginTop: "40px",
-            width: "100%",
-            padding: "0 20px",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "15px",
+            marginBottom: "10px",
+            maxWidth: "100%",
             boxSizing: "border-box",
           }}
         >
-          {renderTable("Qualifying Predictions", qualiPredictions, "quali")}
-          {renderTable("Race Predictions", racePredictions, "race")}
+          <label style={{ fontSize: "1.1rem", whiteSpace: "nowrap" }}>
+            Select Race:
+            <select
+              value={selectedRace}
+              onChange={(e) => setSelectedRace(e.target.value)}
+              style={{
+                marginLeft: 10,
+                padding: "8px",
+                backgroundColor: "#1c1c1c",
+                color: "#fff",
+                border: "1px solid #e10600",
+                borderRadius: "4px",
+                fontSize: "1rem",
+                maxWidth: "200px",
+                overflow: "hidden",
+              }}
+            >
+              {upcomingRaces.map((race) => (
+                <option key={race} value={race}>
+                  {race}
+                </option>
+              ))}
+            </select>
+          </label>
 
+          <button
+            onClick={handleFetchPredictions}
+            disabled={loading}
+            style={{
+              padding: "10px 20px",
+              backgroundColor: "#e10600",
+              color: "#fff",
+              border: "none",
+              borderRadius: "4px",
+              cursor: "pointer",
+              fontWeight: "bold",
+              fontSize: "1rem",
+              transition: "transform 0.15s ease, background-color 0.2s ease",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+            onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+          >
+            {loading ? "Loading..." : "Get Predictions"}
+          </button>
         </div>
-      )}
 
-      {hoveredDriver && driverImages[hoveredDriver] && (() => {
-  // Find driver object from driver photos API data
-    const driverInfo = driverPhotos?.find(d => d.Driver === hoveredDriver);
-    const driverColor = driverInfo ? `#${driverInfo.Color}` : "#e10600";
-  return (
+        {/* Error Message */}
+        {error && (
+          <div style={{ marginTop: 10, color: "#ff4d4d", fontWeight: "bold" }}>
+            Error: {error}
+          </div>
+        )}
+
+        {/* Subheader */}
+        <div
+          style={{
+            marginTop: "8px",
+            fontSize: "0.95rem",
+            color: "#ccc",
+            fontStyle: "italic",
+            textAlign: "center",
+            lineHeight: "1.4",
+          }}
+        >
+          <div>
+            Currently predicting results for{" "}
+            <span style={{ color: "#fff" }}>
+              <b>{currRace}</b>
+            </span>
+          </div>
+          <div style={{ marginTop: "4px" }}>
+            Using data from{" "}
+            <span style={{ color: "#fff" }}>
+              R{LATEST_ROUND} {CURR_SEASON}
+            </span>
+          </div>
+          {selectedRaceIndex > 0 && (
+          <div
+            style={{
+              marginTop: "12px",
+              padding: "10px",
+              backgroundColor: "#ff4d4d",
+              color: "#fff",
+              borderRadius: "6px",
+              fontWeight: "bold",
+              textAlign: "center",
+              maxWidth: "600px",
+              marginLeft: "auto",
+              marginRight: "auto",
+              boxShadow: "0 2px 8px rgba(255, 77, 77, 0.6)",
+            }}
+          >
+            ⚠️ Warning: You are predicting more than one race ahead. Results may be less accurate!
+          </div>
+        )}
+        </div>
+        
+      </div>
+      
+
+
+      {qualiPredictions && racePredictions && (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: isMobile ? "column" : "row",
+        justifyContent: "center", // center tables horizontally
+        alignItems: "flex-start",
+        gap: "20px", // space between tables
+        marginTop: "40px",
+        width: "100%",
+        maxWidth: "100%",
+        padding: isMobile ? "0 10px" : "0 20px",
+        boxSizing: "border-box",
+        overflowX: "hidden", // prevent accidental scroll
+      }}
+    >
+      {renderTable("Qualifying Predictions", qualiPredictions, "quali")}
+      {renderTable("Race Predictions", racePredictions, "race")}
+    </div>
+  )}
+
+      {hoveredDriver && driverImages[hoveredDriver] && (
       <div
         style={{
           position: "fixed",
-          top: mousePos.y + 15,
-          left: mousePos.x + 15,
+          top: popupTop,
+          left: popupLeft,
           backgroundColor: "#1c1c1c",
           border: `2px solid ${driverColor}`,
           borderRadius: "10px",
@@ -373,10 +434,10 @@ export default function App() {
           boxShadow: "0px 4px 15px rgba(0,0,0,0.6)",
           zIndex: 1000,
           pointerEvents: "none",
-          width: "160px",
+          width: `${popupWidth}px`,
           textAlign: "center",
           transform: "scale(1)",
-          transition: "transform 0.15s ease-in-out"
+          transition: "transform 0.15s ease-in-out",
         }}
       >
         <img
@@ -386,20 +447,21 @@ export default function App() {
             width: "100%",
             height: "auto",
             borderRadius: "8px",
-            marginBottom: "8px"
+            marginBottom: "8px",
           }}
         />
-        <div style={{ fontSize: "1rem", fontWeight: "bold", color: "#fff", marginBottom: "6px" }}>
+        <div style={{ fontSize: "1rem", fontWeight: "bold", color: "#fff", marginBottom: "0px" }}>
           {hoveredDriver}
         </div>
+        <div style={{ fontSize: "0.9rem", color: driverColor, marginBottom: "6px" }}>
+        {driverInfo?.Team ?? "Unknown Team"}
+        </div>
         <div style={{ fontSize: "0.9rem", color: "#ccc" }}>
-          Pos: {
-            hoveredSection === "quali"
-              ? (qualiPredictions?.find(p => p.Driver === hoveredDriver)?.Values["Pos"] ?? "N/A")
-              : hoveredSection === "race"
+          Pos: {hoveredSection === "quali"
+            ? (qualiPredictions?.find(p => p.Driver === hoveredDriver)?.Values["Pos"] ?? "N/A")
+            : hoveredSection === "race"
               ? (racePredictions?.find(p => p.Driver === hoveredDriver)?.Values["Pos"] ?? "N/A")
-              : "N/A"
-          }
+              : "N/A"}
         </div>
         <div style={{ fontSize: "0.9rem", color: "#ccc" }}>
           Confidence: {
@@ -407,8 +469,8 @@ export default function App() {
               const conf = hoveredSection === "quali"
                 ? qualiPredictions?.find(p => p.Driver === hoveredDriver)?.Values["Confidence"]
                 : hoveredSection === "race"
-                ? racePredictions?.find(p => p.Driver === hoveredDriver)?.Values["Confidence"]
-                : null;
+                  ? racePredictions?.find(p => p.Driver === hoveredDriver)?.Values["Confidence"]
+                  : null;
 
               return conf !== undefined && conf !== null
                 ? (conf * 100).toFixed(2) + "%"
@@ -417,8 +479,7 @@ export default function App() {
           }
         </div>
       </div>
-    );
-  })()}
+    )}
 
       <Footer />
     </div>

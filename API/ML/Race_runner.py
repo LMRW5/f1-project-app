@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 import os
 from .model import build_winrate_feature_vector, flatten_features, driversANDteams
+from .Quali_runner import *
 
 
 def predict_with_confidence(model, X_input):
@@ -23,15 +24,22 @@ def predict_race_order(season, round_number, race_name):
     # Load trained model
     model_path = os.path.join(os.path.dirname(__file__), "f1_position_predictor.pkl")
     model = joblib.load(model_path)
+    m_path = os.path.join(os.path.dirname(__file__), "f1_qualifying_predictor.pkl")
+    m = joblib.load(m_path)
 
     # Collect drivers and teams for the race
     drivers, teams = driversANDteams(season, round_number)
+    order = predict_quali_order(season, round_number, race_name, m)
 
     predictions = []
 
     for driver in drivers:
         try:
             features = build_winrate_feature_vector(driver, teams[driver], season, race_name, round_number)
+            
+            for r in order:
+                if r["Driver"] == driver:
+                    features["Qualifying_Predictions"] = r["Values"]
             flat_features = flatten_features(features)
             X_input = pd.DataFrame([flat_features]).infer_objects(copy=False).fillna(0)
 

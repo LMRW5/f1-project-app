@@ -11,7 +11,7 @@ from sklearn.metrics import r2_score, mean_squared_error
 import joblib
 import glob
 
-def shift_recency_positions(recency_positions, n_ahead):
+def shift_recency_positions(recency_positions, n_ahead, Avg):
     # recency_positions = [Past1, Past2, Past3] (most recent first)
     # Shift the positions so that for each step ahead,
     # the most recent data (Past1) becomes None, and others move forward.
@@ -19,7 +19,7 @@ def shift_recency_positions(recency_positions, n_ahead):
     shifted = recency_positions.copy()
     
     for _ in range(n_ahead):
-        shifted = [None] + shifted[:-1]  # Insert None at Past1, drop oldest
+        shifted = [Avg] + shifted[:-1]  # Insert None at Past1, drop oldest
     
     return shifted
 
@@ -84,6 +84,7 @@ def build_winrate_feature_vector(imp_driver, imp_team, imp_season, imp_track, im
         "Driver Past Placements": {"Avg": None, "Car Used": None, "Teammate Gap": None, "Starting Pos": None, "Std Dev": None, "Experience": None},
         "Teammate Gap" : None,
         "Wet Weather Multiplier": {"This Season": None, "Prev Seasons": None,},
+
         }
 
     winrate = {
@@ -93,10 +94,66 @@ def build_winrate_feature_vector(imp_driver, imp_team, imp_season, imp_track, im
         }
 
     #Load data for MDOEL
+    # Load average finish for driver this season
+    rounds = []
+    base_dir = os.path.dirname(os.path.abspath(__file__))  # directory of model.py
+    schedule_path = os.path.join(base_dir, "data", str(SEASON), f"schedule.csv")
+    with open(schedule_path, "r") as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            if int(row["Race"]) <= LATEST_ROUND:
+                rounds.append(row["Name"])
 
+    finish_sum = 0
+    race_count = 0
+
+    for round_name in rounds:
+        base_dir = os.path.dirname(os.path.abspath(__file__))  # directory of model.py
+        schedule_path = os.path.join(base_dir, "data", str(SEASON), f"{round_name} R.csv")
+        with open(schedule_path, "r") as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                if row["FullName"] == DRIVER:
+                    try:
+                        pos = int(float(row["Position"]))
+                        finish_sum += pos
+                        race_count += 1
+                    except Exception:
+                        break  # skip non-finishers or invalid data
+
+    carFeatures["Season Avg Finish"] = finish_sum / race_count if race_count > 0 else 0
     # Example: number of races ahead you want to predict (0 for current race)
     round = get_round_from_race_name(season=SEASON, race_name=TRACK)
     n_ahead = round - LATEST_ROUND -1
+
+        # Load average start for driver this season
+    rounds = []
+    base_dir = os.path.dirname(os.path.abspath(__file__))  # directory of model.py
+    schedule_path = os.path.join(base_dir, "data", str(SEASON), "schedule.csv")
+    with open(schedule_path, "r") as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            if int(row["Race"]) <= LATEST_ROUND:
+                rounds.append(row["Name"])
+
+    finish_sum = 0
+    race_count = 0
+
+    for round_name in rounds:
+        base_dir = os.path.dirname(os.path.abspath(__file__))  # directory of model.py
+        schedule_path = os.path.join(base_dir, "data", str(SEASON), f"{round_name} R.csv")
+        with open(schedule_path, "r") as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                if row["FullName"] == DRIVER:
+                    try:
+                        pos = int(float(row["GridPosition"]))
+                        finish_sum += pos
+                        race_count += 1
+                    except Exception:
+                        break  # skip non-finishers or invalid data
+
+    carFeatures["Season Avg Start"] = finish_sum / race_count if race_count > 0 else 0
 
     # Load Recency bias for starting positions:
     recency_positions = []
@@ -127,40 +184,13 @@ def build_winrate_feature_vector(imp_driver, imp_team, imp_season, imp_track, im
         recency_positions.append(None)
 
     # Shift recency positions for future races ahead
-    shifted_positions = shift_recency_positions(recency_positions, n_ahead)
+    shifted_positions = shift_recency_positions(recency_positions, n_ahead, carFeatures["Season Avg Start"])
 
     # Assign recency values (Past1 = most recent, Past2 = second most, etc.)
     for i in range(3):
         key = f"Past{i+1}"
         carFeatures["Recency Start Bias"][key] = shifted_positions[i]
-    # Load average start for driver this season
-    rounds = []
-    base_dir = os.path.dirname(os.path.abspath(__file__))  # directory of model.py
-    schedule_path = os.path.join(base_dir, "data", str(SEASON), "schedule.csv")
-    with open(schedule_path, "r") as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            if int(row["Race"]) <= LATEST_ROUND:
-                rounds.append(row["Name"])
 
-    finish_sum = 0
-    race_count = 0
-
-    for round_name in rounds:
-        base_dir = os.path.dirname(os.path.abspath(__file__))  # directory of model.py
-        schedule_path = os.path.join(base_dir, "data", str(SEASON), f"{round_name} R.csv")
-        with open(schedule_path, "r") as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                if row["FullName"] == DRIVER:
-                    try:
-                        pos = int(float(row["GridPosition"]))
-                        finish_sum += pos
-                        race_count += 1
-                    except Exception:
-                        break  # skip non-finishers or invalid data
-
-    carFeatures["Season Avg Start"] = finish_sum / race_count if race_count > 0 else 0
     #Load past avg std dev from starting pos
     placements = 0
     races = 0
@@ -276,43 +306,12 @@ def build_winrate_feature_vector(imp_driver, imp_team, imp_season, imp_track, im
         recency_positions.append(None)
 
     # Shift recency positions for future races ahead
-    shifted_positions = shift_recency_positions(recency_positions, n_ahead)
+    shifted_positions = shift_recency_positions(recency_positions, n_ahead, carFeatures["Season Avg Finish"])
 
     # Assign recency values (Past1 = most recent, Past2 = second most, etc.)
     for i in range(3):
         key = f"Past{i+1}"
         carFeatures["Recency Finish Bias"][key] = shifted_positions[i]
-
-
-
-    # Load average finish for driver this season
-    rounds = []
-    base_dir = os.path.dirname(os.path.abspath(__file__))  # directory of model.py
-    schedule_path = os.path.join(base_dir, "data", str(SEASON), f"schedule.csv")
-    with open(schedule_path, "r") as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            if int(row["Race"]) <= LATEST_ROUND:
-                rounds.append(row["Name"])
-
-    finish_sum = 0
-    race_count = 0
-
-    for round_name in rounds:
-        base_dir = os.path.dirname(os.path.abspath(__file__))  # directory of model.py
-        schedule_path = os.path.join(base_dir, "data", str(SEASON), f"{round_name} R.csv")
-        with open(schedule_path, "r") as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                if row["FullName"] == DRIVER:
-                    try:
-                        pos = int(float(row["Position"]))
-                        finish_sum += pos
-                        race_count += 1
-                    except Exception:
-                        break  # skip non-finishers or invalid data
-
-    carFeatures["Season Avg Finish"] = finish_sum / race_count if race_count > 0 else 0
 
 
     #Load current consturctors placement for the team this season
@@ -795,9 +794,36 @@ def build_quali_vector(imp_driver, imp_team, imp_season, imp_track, imp_latest_r
     driverFeatures["Teammate Gap"] = gaps/races if races > 0 else None
     # Load Recency Bias (last 3 races or as many as available)
     # Example: number of races ahead you want to predict (0 for current race)
-    round = get_round_from_race_name(season=SEASON, race_name=TRACK)
-    n_ahead = round - LATEST_ROUND -1
+    rnd = get_round_from_race_name(season=SEASON, race_name=TRACK)
+    n_ahead = rnd - LATEST_ROUND -1
+    # Load average finish for driver this season
+    rounds = []
+    base_dir = os.path.dirname(os.path.abspath(__file__))  # directory of model.py
+    path = os.path.join(base_dir, "data", str(SEASON), f"schedule.csv")
+    with open(path, "r") as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            if int(row["Race"]) <= LATEST_ROUND:
+                rounds.append(row["Name"])
 
+    finish_sum = 0
+    race_count = 0
+
+    for round_name in rounds:
+        base_dir = os.path.dirname(os.path.abspath(__file__))  # directory of model.py
+        path = os.path.join(base_dir, "data", str(SEASON), f"{round_name} R.csv")
+        with open(path, "r") as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                if row["FullName"] == DRIVER:
+                    try:
+                        pos = int(float(row["GridPosition"]))
+                        finish_sum += pos
+                        race_count += 1
+                    except Exception:
+                        break  # skip non-finishers or invalid data
+
+    carFeatures["Season Avg Pos"] = finish_sum / race_count if race_count > 0 else 0
     # Load Recency bias for starting positions:
     recency_positions = []
     base_dir = os.path.dirname(os.path.abspath(__file__))  # directory of model.py
@@ -827,41 +853,14 @@ def build_quali_vector(imp_driver, imp_team, imp_season, imp_track, imp_latest_r
         recency_positions.append(None)
 
     # Shift recency positions for future races ahead
-    shifted_positions = shift_recency_positions(recency_positions, n_ahead)
+    shifted_positions = shift_recency_positions(recency_positions, n_ahead, carFeatures["Season Avg Pos"])
 
     # Assign recency values (Past1 = most recent, Past2 = second most, etc.)
     for i in range(3):
         key = f"Past{i+1}"
         QualiPos["Car"]["Recency Bias"][key] = shifted_positions[i]
 
-    # Load average finish for driver this season
-    rounds = []
-    base_dir = os.path.dirname(os.path.abspath(__file__))  # directory of model.py
-    path = os.path.join(base_dir, "data", str(SEASON), f"schedule.csv")
-    with open(path, "r") as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            if int(row["Race"]) <= LATEST_ROUND:
-                rounds.append(row["Name"])
 
-    finish_sum = 0
-    race_count = 0
-
-    for round_name in rounds:
-        base_dir = os.path.dirname(os.path.abspath(__file__))  # directory of model.py
-        path = os.path.join(base_dir, "data", str(SEASON), f"{round_name} R.csv")
-        with open(path, "r") as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                if row["FullName"] == DRIVER:
-                    try:
-                        pos = int(float(row["GridPosition"]))
-                        finish_sum += pos
-                        race_count += 1
-                    except Exception:
-                        break  # skip non-finishers or invalid data
-
-    carFeatures["Season Avg Pos"] = finish_sum / race_count if race_count > 0 else 0
 
     #Load current consturctors placement for the team this season
     base_dir = os.path.dirname(os.path.abspath(__file__))  # directory of model.py

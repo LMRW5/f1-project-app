@@ -32,9 +32,7 @@ def predict_quali_order(season, round_number, race_name, model):
             features = build_quali_vector(driver, teams[driver], season, race_name, round_number)
             flat_features = flatten_features(features)
             X_input = pd.DataFrame([flat_features]).infer_objects(copy=False).fillna(0)
-            print(driver)
-            print(features)
-            print("\n -------------------------------- \n")
+
             score, confidence, std = predict_with_confidence(model, X_input)
             predictions.append((driver, score, confidence, std))
         except Exception as e:

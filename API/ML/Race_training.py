@@ -1,7 +1,16 @@
 from model import *
+from Quali_runner import *
+import csv
+import pandas as pd
+import joblib
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import r2_score, mean_squared_error
 
 def train_model():
     dataset = []
+    model = joblib.load("f1_qualifying_predictor.pkl")
+
 
     for season in range(2020, 2025):  # Training up to 2024
         with open(f"data/{season}/schedule.csv", "r") as schedule_file:
@@ -10,6 +19,7 @@ def train_model():
                 round_num = int(row["Race"])
 
                 race = row["Name"]
+                order = predict_quali_order(season, round_num, race, model)
 
                 try:
                     with open(f"data/{season}/{race} R.csv", "r") as result_file:
@@ -19,6 +29,9 @@ def train_model():
                             team = row["TeamName"]
                             try:
                                 winrate = build_winrate_feature_vector(driver, team, season, race, round_num)
+                                for r in order:
+                                    if r["Driver"] == driver:
+                                        winrate["Qualifying_Predictions"] = r["Values"]
                                 features = flatten_features(winrate)
                                 target_position = int(get_race_results(driver, season, race))
                                 features["FinalPosition"] = target_position

@@ -96,10 +96,12 @@ async def driverPhotos(req: PredictionRequest):
             if row["FullName"] == "Franco Colapinto":
                 pictures.append({"Driver": row["FullName"],
                               "Image": "https://e2.365dm.com/f1/drivers/256x256/h_full_1563.png", 
-                              "Color": row["TeamColor"]})
+                              "Color": row["TeamColor"],
+                              "Team": row["TeamName"]})
             else:
                 pictures.append({"Driver": row["FullName"],
                                 "Image": row["HeadshotUrl"],
-                                "Color": row["TeamColor"]})
+                                "Color": row["TeamColor"],
+                                "Team": row["TeamName"]})
     
     return pictures

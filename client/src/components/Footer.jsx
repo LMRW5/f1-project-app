@@ -1,4 +1,4 @@
-import { FaTwitter, FaInstagram, FaGithub, FaEnvelope } from "react-icons/fa";
+import { FaTwitter, FaInstagram, FaGithub, FaEnvelope, FaLinkedin } from "react-icons/fa";
 import React from "react";
 
 const footerStyle = {
@@ -26,10 +26,9 @@ export default function Footer() {
   const [hoveredIcon, setHoveredIcon] = React.useState(null);
 
   const socials = [
-    { icon: <FaTwitter />, link: "https://twitter.com/yourhandle", label: "Twitter" },
+    { icon: <FaLinkedin />, link: "https://linkedin.com/in/ryan-wu88", label: "LinkedIn" },
     { icon: <FaInstagram />, link: "https://instagram.com/scuffed.game", label: "Instagram" },
     { icon: <FaGithub />, link: "https://github.com/LMRW5", label: "GitHub" },
-    { icon: <FaEnvelope />, link: "mailto:youremail@example.com", label: "Email" },
   ];
 
   return (
