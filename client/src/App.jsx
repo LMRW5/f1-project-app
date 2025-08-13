@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Footer from "./components/Footer.jsx";
 
+const IP = "192.168.1.9"
 const LATEST_ROUND = 14;
 const CURR_SEASON = 2025;
 
@@ -52,7 +53,7 @@ export default function App() {
   useEffect(() => {
     const fetchUpcomingRaces = async () => {
       try {
-        const res = await fetch("http://localhost:8000/Upcoming-Races", {
+        const res = await fetch(`http://${IP}:8000/Upcoming-Races`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ season: CURR_SEASON, round: LATEST_ROUND, race_name: "" }),
@@ -60,7 +61,6 @@ export default function App() {
         const data = await res.json();
         if (data.status === "ok" && data.upcoming.length > 0) {
           setUpcomingRaces(data.upcoming.map((r) => r.Name));
-          setSelectedRace(data.upcoming[0].Name);
         } else {
           setError("No upcoming races found.");
         }
@@ -86,12 +86,12 @@ export default function App() {
       };
 
       const [qualiRes, raceRes] = await Promise.all([
-        fetch(`http://localhost:8000/predict-Quali`, {
+        fetch(`http://${IP}:8000/predict-Quali`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         }),
-        fetch(`http://localhost:8000/predict-Race`, {
+        fetch(`http://${IP}:8000/predict-Race`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
@@ -108,7 +108,7 @@ export default function App() {
       else setError(raceData.message || "Error fetching race predictions");
 
       // Fetch driver images
-      const imgRes = await fetch(`http://localhost:8000/Driver-Photos/`, {
+      const imgRes = await fetch(`http://${IP}:8000/Driver-Photos/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -144,7 +144,7 @@ export default function App() {
 
 
   const thStyle = {
-    padding: "12px",
+    padding: isMobile ? "8px" : "12px",
     backgroundColor: "#e10600",
     color: "#fff",
     fontWeight: "bold",
@@ -153,23 +153,28 @@ export default function App() {
   };
 
   const tdStyle = {
-    padding: "12px",
+    padding: isMobile ? "8px" : "12px",
     borderBottom: "1px solid #333",
     textAlign: "center",
   };
   
-  const renderTable = (title, predictions, section) => (
+  const renderTable = (title, predictions, section) => {
+  // Skip the top 3 drivers (positions 1, 2, and 3)
+  const restDrivers = predictions.filter(({ Values }) => Values["Pos"] > 3);
+
+  return (
     <div 
       style={{ 
         flex: 1, 
         margin: isMobile ? "10px 0" : "0 10px", 
         minWidth: 0,
-        display: "flex",           // New
-        flexDirection: "column",   // New
-        alignItems: "center"       // New
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center"
       }}
     >
       <h2 style={{ color: "#e10600", textAlign: "center" }}>{title}</h2>
+      <Podium predictions={predictions}  section={section} />
       <table style={tableStyle}>
         <thead>
           <tr>
@@ -181,7 +186,7 @@ export default function App() {
           </tr>
         </thead>
         <tbody>
-          {predictions.map(({ Driver, Values }) => (
+          {restDrivers.map(({ Driver, Values }) => (
             <tr
               key={Driver}
               style={{
@@ -216,9 +221,10 @@ export default function App() {
       </table>
     </div>
   );
+};
     // Estimate popup dimensions
-  const popupWidth = 160;
-  const popupHeight = 220; // approximate, adjust if needed
+  const popupWidth = isMobile ? 120 : 160;
+  const popupHeight = isMobile ? 180 : 220;
 
   // Get viewport size
   const viewportWidth = window.innerWidth;
@@ -245,6 +251,103 @@ export default function App() {
   // Get driver color once here too
   const driverInfo = hoveredDriver ? driverPhotos?.find(d => d.Driver === hoveredDriver) : null;
   const driverColor = driverInfo ? `#${driverInfo.Color}` : "#e10600";
+  function Podium({ predictions, section }) {
+    if (!predictions || predictions.length < 3) return null;
+
+    const top3 = predictions.slice(0, 3);
+    const podiumHeights = isMobile ? [140, 120, 100] : [200, 160, 140];
+
+    // Helper to get last name from full driver name
+    const getLastName = (fullName) => {
+      const parts = fullName.trim().split(" ");
+      return parts[parts.length - 1];
+    };
+
+    return (
+      <>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "flex-end",
+            gap: "20px",
+            marginTop: "40px",
+          }}
+        >
+          {top3.map(({ Driver }, i) => {
+            const isHovered = hoveredDriver === Driver && hoveredSection === section;
+            return (
+              <div
+                key={Driver}
+                style={{
+                  width: isMobile ? "80px" : "130px",
+                  height: podiumHeights[i],
+                  backgroundColor: isHovered
+                    ? "rgba(255, 255, 255, 0.2)"
+                    : i === 0
+                    ? "#FFD700"
+                    : i === 1
+                    ? "#C0C0C0"
+                    : "#CD7F32",
+                  borderRadius: "8px 8px 0 0",
+                  boxShadow: "0 3px 7px rgba(0,0,0,0.4)",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                  padding: "10px 8px",
+                  color: "#121212",
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  overflow: "hidden",
+                  cursor: "pointer",
+                  transition: "background-color 0.3s ease",
+                }}
+                onMouseEnter={() => {
+                  setHoveredDriver(Driver);
+                  setHoveredSection(section);
+                }}
+                onMouseLeave={() => {
+                  setHoveredDriver(null);
+                  setHoveredSection(null);
+                }}
+                onMouseMove={(e) => {
+                  setMousePos({ x: e.clientX, y: e.clientY });
+                }}
+              >
+                {driverImages[Driver] ? (
+                  <img
+                    src={driverImages[Driver]}
+                    alt={Driver}
+                    style={{
+                      width: "100%",
+                      maxHeight: podiumHeights[i] - 40, // a bit more room for name
+                      objectFit: "contain",
+                      borderRadius: "6px",
+                    }}
+                  />
+                ) : (
+                  <div
+                    style={{
+                      width: "100%",
+                      height: podiumHeights[i] - 40,
+                      backgroundColor: "#444",
+                      borderRadius: "6px",
+                    }}
+                  />
+                )}
+                {/* Last name under the image */}
+                <div style={{ marginTop: "10px", fontSize: "1.3rem", whiteSpace: "nowrap", textOverflow: "ellipsis", overflow: "hidden", width: "100%" }}>
+                  {getLastName(Driver)}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </>
+    );
+  }
+
 
     return (
     <div
@@ -277,7 +380,7 @@ export default function App() {
         <h1
           style={{
             color: "#e10600",
-            fontSize: "3rem",
+            fontSize: isMobile ? "2rem" : "3rem",
             margin: "0 0 15px 0",
             textShadow: "0px 0px 10px rgba(225,6,0,0.7)",
             overflowWrap: "break-word",
@@ -301,35 +404,39 @@ export default function App() {
         >
           <label style={{ fontSize: "1.1rem", whiteSpace: "nowrap" }}>
             Select Race:
-            <select
-              value={selectedRace}
-              onChange={(e) => setSelectedRace(e.target.value)}
-              style={{
-                marginLeft: 10,
-                padding: "8px",
-                backgroundColor: "#1c1c1c",
-                color: "#fff",
-                border: "1px solid #e10600",
-                borderRadius: "4px",
-                fontSize: "1rem",
-                maxWidth: "200px",
-                overflow: "hidden",
-              }}
-            >
-              {upcomingRaces.map((race) => (
-                <option key={race} value={race}>
-                  {race}
-                </option>
-              ))}
-            </select>
+            
+           <select
+            value={selectedRace}
+            onChange={(e) => setSelectedRace(e.target.value)}
+            style={{
+              marginLeft: 10,
+              padding: "8px",
+              backgroundColor: "#1c1c1c",
+              color: "#fff",
+              border: "1px solid #e10600",
+              borderRadius: "4px",
+              fontSize: "1rem",
+              maxWidth: "200px",
+              overflow: "hidden",
+            }}
+          >
+            <option value="" disabled>
+              Choose A Grand Prix
+            </option>
+            {upcomingRaces.map((race) => (
+              <option key={race} value={race}>
+                {race}
+              </option>
+            ))}
+          </select>
           </label>
 
           <button
             onClick={handleFetchPredictions}
-            disabled={loading}
+            disabled={loading | !selectedRace}
             style={{
               padding: "10px 20px",
-              backgroundColor: "#e10600",
+              backgroundColor: selectedRace ? "#e10600": "hsla(2, 100%, 17%, 0.6)" ,
               color: "#fff",
               border: "none",
               borderRadius: "4px",
@@ -366,7 +473,7 @@ export default function App() {
           <div>
             Currently predicting results for{" "}
             <span style={{ color: "#fff" }}>
-              <b>{currRace}</b>
+              <b>{currRace ? currRace: "None"}</b>
             </span>
           </div>
           <div style={{ marginTop: "4px" }}>
@@ -401,25 +508,31 @@ export default function App() {
 
 
       {qualiPredictions && racePredictions && (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: isMobile ? "column" : "row",
-        justifyContent: "center", // center tables horizontally
-        alignItems: "flex-start",
-        gap: "20px", // space between tables
-        marginTop: "40px",
-        width: "100%",
-        maxWidth: "100%",
-        padding: isMobile ? "0 10px" : "0 20px",
-        boxSizing: "border-box",
-        overflowX: "hidden", // prevent accidental scroll
-      }}
-    >
-      {renderTable("Qualifying Predictions", qualiPredictions, "quali")}
-      {renderTable("Race Predictions", racePredictions, "race")}
+  <div
+    style={{
+      display: "flex",
+      flexDirection: isMobile ? "column" : "row",
+      justifyContent: "center", // center tables horizontally
+      alignItems: "flex-start",
+      gap: "20px", // space between tables
+      marginTop: "40px",
+      width: "100%",
+      maxWidth: "100%",
+      padding: isMobile ? "0 10px" : "0 20px",
+      boxSizing: "border-box",
+      overflowX: "hidden", // prevent accidental scroll
+      flexWrap: "wrap", // wrap on small screens
+    }}
+  >
+    <div style={{ flex: "1 1 400px", minWidth: "320px" }}>
+      {renderTable("⏱️Qualifying Predictions", qualiPredictions, "quali")}
+      
     </div>
-  )}
+    <div style={{ flex: "1 1 400px", minWidth: "320px" }}>
+      {renderTable("🏁Race Predictions", racePredictions, "race")}
+    </div>
+  </div>
+)}
 
       {hoveredDriver && driverImages[hoveredDriver] && (
       <div
@@ -463,6 +576,21 @@ export default function App() {
               ? (racePredictions?.find(p => p.Driver === hoveredDriver)?.Values["Pos"] ?? "N/A")
               : "N/A"}
         </div>
+                 <div style={{ fontSize: "0.9rem", color: "#ccc" }}>
+          Std Dev: {
+            (() => {
+              const conf = hoveredSection === "quali"
+                ? qualiPredictions?.find(p => p.Driver === hoveredDriver)?.Values["Std Dev"]
+                : hoveredSection === "race"
+                  ? racePredictions?.find(p => p.Driver === hoveredDriver)?.Values["Std Dev"]
+                  : null;
+
+              return conf !== undefined && conf !== null
+                ? (conf).toFixed(2)
+                : "N/A";
+            })()
+          }
+        </div>
         <div style={{ fontSize: "0.9rem", color: "#ccc" }}>
           Confidence: {
             (() => {
@@ -478,6 +606,7 @@ export default function App() {
             })()
           }
         </div>
+
       </div>
     )}
 

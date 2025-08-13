@@ -10,13 +10,11 @@ The app presents predictions side-by-side with confidence scores, dynamic driver
 - 🗓 **Upcoming Race Selector** – Choose from upcoming races in the current season.
 - 📊 **Dual Predictions Display** – See both Qualifying and Race predictions at the same time.
 - 🤖 **ML-Powered Forecasts** – Backend model predicts position, score, standard deviation, and confidence.
+- 🌲 **Random Forest Regressor** – Core ML algorithm powering the predictions.
 - 🏁 **Driver Hover Images** – Hover over a driver to view their profile image.
 - 📱 **Responsive Design** – Optimized for desktop and mobile devices.
-- 🎨 **Modern F1 Styling** – Inspired by Formula 1 branding, with a dark theme and accent colors.
-- 🏆 **Interactive Tables** – Highlight podium positions and animate on hover.
 - 📊 **High R² values** - around 91%
 - 📉 **Low MSE values** - around 2.894
-- 🌲 **Random Forest Regressor** – Core ML algorithm powering the predictions.
 
 ---
 
@@ -50,10 +48,17 @@ The app presents predictions side-by-side with confidence scores, dynamic driver
 
 ---
 ## 📸 Screenshots
-### Home Screen
-![home screen image](image.png)
-### Predictions View
-![example predictions](image-1.png)
+### Desktop Home Screen
+![home screen image](image-2.png)
+
+### Desktop Predictions View
+![example Predictions](image-3.png)
+
+### Mobile Home Screen
+![home screen image on mobile](image-7.png)
+
+### Mobile Predictions View
+![example predicitons view on mobile](image-6.png)
 
 ## ⚡ Installation
 
@@ -76,6 +81,50 @@ cd client
 npm install
 npm run dev
 ```
+## 📱 Running on Mobile (Local Network)
+You can access the app from your phone while developing locally.
+
+### Backend (FastAPI)
+Run the backend so it’s visible on your network:
+```bash
+cd API
+pip install -r requirements.txt
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+```
+This allows connections from devices on the same Wi-Fi network.
+
+### Frontend (Vite)
+Run the frontend with:
+
+```bash
+cd client
+npm install
+npm run dev -- --host
+```
+### Find your IP
+
+On your computer, run:
+
+Mac/Linux: ifconfig
+
+Windows: ipconfig
+
+Look for your IPv4 address (e.g., 192.168.0.42).
+
+### Update API URL
+in App.jsx inside the client folder:
+```jsx
+const IP = "192.168.1.9"
+```
+update IP variable to match IP found in IPV4
+
+### Connect from your phone
+On your phone’s browser, go to:
+```cpp
+http://<your-ip>:5173
+```
+
+
 
 ## 🎯 Usage
 1. Start both backend and frontend servers.
