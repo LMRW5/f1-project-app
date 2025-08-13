@@ -114,7 +114,7 @@ Look for your IPv4 address (e.g., 192.168.0.42).
 ### Update API URL
 in App.jsx inside the client folder:
 ```jsx
-const IP = "192.168.1.9"
+const IP = "localhost"
 ```
 update IP variable to match IP found in IPV4
 
