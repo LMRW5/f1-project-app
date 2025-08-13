@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Footer from "./components/Footer.jsx";
 
-const IP = "192.168.1.9"
+const IP = "localhost"
 const LATEST_ROUND = 14;
 const CURR_SEASON = 2025;
 
