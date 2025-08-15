@@ -7,4 +7,4 @@ fastf1
 shap
 fastapi
 pydantic
-univorn
+uvicorn
