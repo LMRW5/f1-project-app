@@ -22,7 +22,6 @@ const iconHoverStyle = {
 };
 
 export default function Footer() {
-  // Simple hover effect using React state (optional)
   const [hoveredIcon, setHoveredIcon] = React.useState(null);
 
   const socials = [
